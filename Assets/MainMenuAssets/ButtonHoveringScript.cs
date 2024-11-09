@@ -1,22 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonHoveringScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        // assigning variables.
-        GUIStyle smallFont;
-        GUIStyle largeFont;
+    int normalSize = 72;
+    int hoverSize = 80;
+    public Text buttonText;
 
-        smallFont.fontSize = 72; // standard size of the text
-        largeFont.fontSize = 80; // new size when hovering over the button.
-    }
-    
-    public void guiHover()
+    public void GuiHover()
     {
-
+       // stuff
     }
 }
