@@ -2,17 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
 
-public class ButtonHoveringScript : MonoBehaviour
+public class ButtonHoveringScript : MonoBehaviour, IPointerExitHandler
 {
-    int normalSize = 72;
-    int hoverSize = 80;
-    public Text buttonText;
-
-    public void GuiHover()
+    public TMP_Text buttonText;
+    public void OnPointerEnter(PointerEventData eventData)
     {
-       // stuffz
+        Debug.Log("The cursor entered the selectable UI element.");
+        buttonText.fontSize += 10;
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("The cursor exited the selectable UI element.");
+        buttonText.fontSize -= 10;
     }
 }
