@@ -21,7 +21,7 @@ public class Initialisation : MonoBehaviour
 
     void Awake()
     {
-        // this is so the object (character) will not be destroyed upon creation. 
+        // this is so the object (character) will not be destroyed upon creation when we move them between scenes (like playing the game). 
         Object.DontDestroyOnLoad(character);
     }
     void Start()
