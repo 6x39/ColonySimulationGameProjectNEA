@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
 
 public class Initialisation : MonoBehaviour
@@ -26,13 +27,13 @@ public class Initialisation : MonoBehaviour
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             characterRigidBody.velocity = Vector2.up * 5;
         }
@@ -41,5 +42,11 @@ public class Initialisation : MonoBehaviour
             Debug.Log($"attribute1 = {attribute1}, attribute2 = {attribute2}, attribute3 = {attribute3}. etc etc, if this works the other stuff does too.");
 
         }
+        /* THIS WILL BE CHANGED AT A LATER DATE SO ANY ISSUES WITH WIDTH/HEIGHT OF THE PROGRAM IT WILL AUTOMATICALLY SCALE.
+        if (SceneManager.GetActiveScene().name == "CharacterCreationScene")
+        {
+
+        }
+        */
     }
 }
