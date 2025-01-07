@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TestingGridMaker : MonoBehaviour
 {
-    GridTileSystem gridGenerator = new GridTileSystem(10, 5, 1f);
     // Start is called before the first frame update
     void Start()
     {
+        GridTileSystem gridGenerator = new GridTileSystem(10, 5, 1f);
         gridGenerator.GenerateGrid();
     }
 }
