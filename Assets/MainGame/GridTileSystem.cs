@@ -30,30 +30,26 @@ public class GridTileSystem : MonoBehaviour
         {
             for (int y = 0; y < objectHeight; y++)
             {
-                Vector3 position = new Vector3((x * gapSize) + 0.5f, (y * gapSize) + 0.5f, 0);
+                Vector2 position = new Vector2((x * gapSize) + 0.5f, (y * gapSize) + 0.5f);
                 GameObject tile = Instantiate(prefabTile, position, Quaternion.identity);   
                 tile.name = $"tile_{x}_{y}";
                 tile.transform.parent = TileHolder.transform;
-                tile.AddComponent(typeof(SphereCollider));
+                tile.AddComponent(typeof(BoxCollider2D));
             }
         }
     }
     
     public void DigFunction() // this will be repurposed at a later day for my mechanics.
     {
-        Vector3 cursorPosition = Input.mousePosition;
-        Collider[] intersecting = Physics.OverlapSphere(cursorPosition, 0.01f);
-        if (intersecting.Length != 0)
+        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        Vector3 worldCursorPosition = Camera.main.ScreenToWorldPoint(cursorPosition);
+        Debug.Log(worldCursorPosition);
+        LayerMask mask = LayerMask.GetMask("Default");
+        Collider2D intersecting = Physics2D.OverlapCircle(worldCursorPosition, 0.1f, mask);
+        Debug.Log(intersecting);
+        if (intersecting != null)
         {
-            foreach (Collider thingToDestroy in intersecting)
-            {
-                float dist = Vector3.Distance(cursorPosition, thingToDestroy.transform.position);
-                if (dist < 0.5f)
-                {
-                    Destroy(thingToDestroy);
-                }
-            }
+            Destroy(intersecting);
         }
     }
-    
 }

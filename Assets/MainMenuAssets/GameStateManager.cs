@@ -15,6 +15,8 @@ public class GameStateManager : MonoBehaviour
         TripleSpeed
     }
     public GameState currentState = (GameState)0;
+    bool hasGridBeenMade = false;
+    GridTileSystem gridGenerator = new GridTileSystem(30, 50, 1f); // making the grid.
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +26,7 @@ public class GameStateManager : MonoBehaviour
     void Awake()
     {
         // singleton instance
-        // it is literally just checking if an instance exists, and it is not this instance, then it deletes itself.
+        // it is literally just checking if an instance exists, and it is not this instance, then that instance deletes itself.
         if (Instance != null && Instance != this) 
         { 
             Destroy(this); 
@@ -36,11 +38,16 @@ public class GameStateManager : MonoBehaviour
         }
     }
     void Update()
+    {   
+    if (!hasGridBeenMade && SceneManager.GetActiveScene().name == "MainGameScene")
     {
-        if (SceneManager.GetActiveScene().name == "MainGameScene")
-        {
-            Console.Write(currentState);
-            if (Input.GetKeyDown(KeyCode.Space))
+        gridGenerator.GenerateGrid();
+        hasGridBeenMade = true;
+    }
+
+    if (SceneManager.GetActiveScene().name == "MainGameScene")
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
             {
                 switch(currentState)
                 {
@@ -60,9 +67,8 @@ public class GameStateManager : MonoBehaviour
                     currentState = 0;
                     break;
                 }
-                Console.Write(currentState);
             }
-            if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
             {
                 switch(currentState)
                 {
@@ -82,8 +88,13 @@ public class GameStateManager : MonoBehaviour
                     currentState = (GameState)1;
                     break;
                 }
-                Console.Write(currentState);
             }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("You have pressed left click.");
+            gridGenerator.DigFunction();
         }
     }
 }
