@@ -17,7 +17,7 @@ public class GameStateManager : MonoBehaviour
     public GameState currentState = (GameState)0;
     bool hasGridBeenMade = false;
     GridTileSystem gridGenerator = new GridTileSystem(30, 50, 1f, new(-5, -5)); // making the grid.
-    float cameraSpeed;
+    float cameraSpeed = 1f;
 
     void Awake()
     {
@@ -33,17 +33,18 @@ public class GameStateManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject); // makes sure this thing exists forever, even when scenes are loaded.
         }
     }
+
     void Update()
     {   
-    if (!hasGridBeenMade && SceneManager.GetActiveScene().name == "MainGameScene")
-    {
-        gridGenerator.GenerateGrid();
-        hasGridBeenMade = true;
-    }
+        if (!hasGridBeenMade && SceneManager.GetActiveScene().name == "MainGameScene")
+        {
+            gridGenerator.GenerateGrid();
+            hasGridBeenMade = true;
+        }
 
-    if (SceneManager.GetActiveScene().name == "MainGameScene")
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (SceneManager.GetActiveScene().name == "MainGameScene")
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 switch(currentState)
                 {
@@ -64,7 +65,7 @@ public class GameStateManager : MonoBehaviour
                     break;
                 }
             }
-        if (Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
                 switch(currentState)
                 {
@@ -92,7 +93,10 @@ public class GameStateManager : MonoBehaviour
             Debug.Log("You have pressed left click.");
             gridGenerator.DigFunction();
         }
-        
+    }
+
+    void FixedUpdate()
+    {
         if (Input.GetKey(KeyCode.W))
         {
             CameraMovement("up");
@@ -108,8 +112,11 @@ public class GameStateManager : MonoBehaviour
         else if (Input.GetKey(KeyCode.D))
         {
             CameraMovement("right");
+            Debug.Log("to the right to the right");
         }
-    }
+    }   
+
+
     public void CameraMovement(string direction) // this is going to allow the user to control the camera. To make it actually visible that the camera is moving, I will need to change the sprite of the tiles to have an outline.
     {
         switch(direction) // this is going to be for the direction that the camera is moving. 
