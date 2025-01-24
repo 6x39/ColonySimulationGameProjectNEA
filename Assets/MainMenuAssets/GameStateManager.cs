@@ -16,13 +16,9 @@ public class GameStateManager : MonoBehaviour
     }
     public GameState currentState = (GameState)0;
     bool hasGridBeenMade = false;
-    GridTileSystem gridGenerator = new GridTileSystem(30, 50, 1f); // making the grid.
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-     
+    GridTileSystem gridGenerator = new GridTileSystem(30, 50, 1f, new(-5, -5)); // making the grid.
+    float cameraSpeed;
+
     void Awake()
     {
         // singleton instance
@@ -95,6 +91,44 @@ public class GameStateManager : MonoBehaviour
         {
             Debug.Log("You have pressed left click.");
             gridGenerator.DigFunction();
+        }
+        
+        if (Input.GetKey(KeyCode.W))
+        {
+            CameraMovement("up");
+        }
+        else if (Input.GetKey(KeyCode.A))
+        {
+            CameraMovement("left");
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            CameraMovement("down");
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            CameraMovement("right");
+        }
+    }
+    public void CameraMovement(string direction) // this is going to allow the user to control the camera. To make it actually visible that the camera is moving, I will need to change the sprite of the tiles to have an outline.
+    {
+        switch(direction) // this is going to be for the direction that the camera is moving. 
+        {
+            case "left":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - (0.1f * cameraSpeed), Camera.main.transform.position.y, Camera.main.transform.position.z);
+            break;
+
+            case "right":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + (0.1f * cameraSpeed), Camera.main.transform.position.y, Camera.main.transform.position.z);
+            break;
+
+            case "up":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + (0.1f * cameraSpeed) ,Camera.main.transform.position.z);
+            break;
+
+            case "down":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - (0.1f * cameraSpeed) ,Camera.main.transform.position.z);
+            break;
         }
     }
 }
