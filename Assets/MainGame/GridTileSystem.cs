@@ -45,11 +45,8 @@ public class GridTileSystem : MonoBehaviour
     {
         Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0); // finds the position of the cursor on the screen
         Vector3 worldCursorPosition = Camera.main.ScreenToWorldPoint(cursorPosition); // and then converts it to a world vector instead.
-        Debug.Log(worldCursorPosition);
         LayerMask mask = LayerMask.GetMask("Default"); // unneeded, but tells the OverlapCircle which layer to work on.
-        Collider2D intersecting = Physics2D.OverlapCircle(worldCursorPosition, 0.1f, mask); // finds the collider that is intersecting with the cursor.
-
-        Debug.Log(intersecting);
+        Collider2D intersecting = Physics2D.OverlapCircle(worldCursorPosition, 0.001f, mask); // finds the collider that is intersecting with the cursor.
         if (intersecting != null) // if there is a gameobject there 
         {
             Destroy(intersecting.gameObject); // then destroys it

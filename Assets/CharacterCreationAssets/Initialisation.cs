@@ -25,10 +25,6 @@ public class Initialisation : MonoBehaviour
         // this is so the object (character) will not be destroyed upon creation when we move them between scenes (like playing the game). 
         Object.DontDestroyOnLoad(character);
     }
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()

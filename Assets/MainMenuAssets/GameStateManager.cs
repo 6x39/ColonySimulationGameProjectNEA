@@ -97,22 +97,47 @@ public class GameStateManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
         {
-            CameraMovement("up");
+            CameraMovement("up and left");
+        }
+        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            CameraMovement("up and right");
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            CameraMovement("down and left");
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        {
+            CameraMovement("down and right");
+        }
+        else if (Input.GetKey(KeyCode.D))
+        {
+            CameraMovement("right");
         }
         else if (Input.GetKey(KeyCode.A))
         {
             CameraMovement("left");
         }
+        else if (Input.GetKey(KeyCode.W))
+        {
+            CameraMovement("up");
+        }
         else if (Input.GetKey(KeyCode.S))
         {
             CameraMovement("down");
         }
-        else if (Input.GetKey(KeyCode.D))
+
+        // seperate if statement for checking if scrolling is happening. this is so you can scroll AND move at the same time (hopefully).
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f ) // forward
         {
-            CameraMovement("right");
-            Debug.Log("to the right to the right");
+            Camera.main.orthographicSize++;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") > 0f ) // backwards 
+        {
+            Camera.main.orthographicSize--;
         }
     }   
 
@@ -129,12 +154,28 @@ public class GameStateManager : MonoBehaviour
             Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + (0.1f * cameraSpeed), Camera.main.transform.position.y, Camera.main.transform.position.z);
             break;
 
-            case "up":
-            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + (0.1f * cameraSpeed) ,Camera.main.transform.position.z);
+            case "down":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - (0.1f * cameraSpeed) , Camera.main.transform.position.z);
             break;
 
-            case "down":
-            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y - (0.1f * cameraSpeed) ,Camera.main.transform.position.z);
+            case "up":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + (0.1f * cameraSpeed) , Camera.main.transform.position.z);
+            break;
+
+            case "up and left":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - (0.1f * cameraSpeed), Camera.main.transform.position.y + (0.1f * cameraSpeed), Camera.main.transform.position.z);
+            break;
+
+            case "up and right":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + (0.1f * cameraSpeed), Camera.main.transform.position.y + (0.1f * cameraSpeed), Camera.main.transform.position.z);
+            break;
+
+            case "down and left":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x - (0.1f * cameraSpeed), Camera.main.transform.position.y - (0.1f * cameraSpeed), Camera.main.transform.position.z);
+            break;
+
+            case "down and right":
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x + (0.1f * cameraSpeed), Camera.main.transform.position.y - (0.1f * cameraSpeed), Camera.main.transform.position.z);
             break;
         }
     }
