@@ -16,7 +16,7 @@ public class GameStateManager : MonoBehaviour
     }
     public GameState currentState = (GameState)0;
     bool hasGridBeenMade = false;
-    GridTileSystem gridGenerator = new GridTileSystem(30, 50, 1f, new(-5, -5)); // making the grid.
+    GridTileSystem gridGenerator = new GridTileSystem(50, 76, 1f, new(-25, -38)); // making the grid.
     float cameraSpeed = 1f;
 
     void Awake()
@@ -93,6 +93,17 @@ public class GameStateManager : MonoBehaviour
             Debug.Log("You have pressed left click.");
             gridGenerator.DigFunction();
         }
+
+        if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f ) // forward
+        {
+            if (Camera.main.orthographicSize + 0.5f != 10) Camera.main.orthographicSize += 0.5f;
+            cameraSpeed = 1 + (Camera.main.orthographicSize * 0.3f);
+        }
+        else if (Input.GetAxisRaw("Mouse ScrollWheel") > 0f ) // backwards 
+        {
+            if (Camera.main.orthographicSize + 0.5f != 1) Camera.main.orthographicSize -= 0.5f;
+            cameraSpeed = 1 + (Camera.main.orthographicSize * 0.3f);
+        }
     }
 
     void FixedUpdate()
@@ -131,14 +142,6 @@ public class GameStateManager : MonoBehaviour
         }
 
         // seperate if statement for checking if scrolling is happening. this is so you can scroll AND move at the same time (hopefully).
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f ) // forward
-        {
-            Camera.main.orthographicSize++;
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") > 0f ) // backwards 
-        {
-            Camera.main.orthographicSize--;
-        }
     }   
 
 
