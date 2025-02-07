@@ -38,8 +38,14 @@ public class GameStateManager : MonoBehaviour
     {   
         if (!hasGridBeenMade && SceneManager.GetActiveScene().name == "MainGameScene")
         {
-            gridGenerator.GenerateGrid();
-            hasGridBeenMade = true;
+            gridGenerator.GenerateGrid(); // generates the grid.
+            GameObject c1 = GameObject.Find("Character1");
+            GameObject c2 = GameObject.Find("Character2");
+            GameObject c3 = GameObject.Find("Character3"); // getting all of the different characters. this is the easiest way to do it in my opinion.
+            c1.transform.position = new Vector3(2, 0, -0.05f);
+            c2.transform.position = new Vector3(0, 0, -0.05f); 
+            c3.transform.position = new Vector3(-2, 0, -0.05f); // then changing all of the different characters' positions to be in the centre of the map. 
+            hasGridBeenMade = true; // makes sure it doesn't get generated again.
         }
 
         if (SceneManager.GetActiveScene().name == "MainGameScene")

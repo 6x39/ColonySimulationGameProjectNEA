@@ -45,4 +45,9 @@ public class Initialisation : MonoBehaviour
         }
         */
     }
+
+    void DestroyCharacter()
+    {
+        Destroy(character); // this is just for killing the user later on and stuff. also so i can destroy them whenever I want.
+    }
 }
