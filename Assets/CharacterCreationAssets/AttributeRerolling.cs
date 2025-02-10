@@ -23,7 +23,6 @@ public class AttributeRerolling : MonoBehaviour
             getChar.attribute1Ability = value.Next(0, 10);
             getChar.attribute2Ability = value.Next(0, 10);
             getChar.attribute3Ability = value.Next(0, 10);
-            Debug.Log("yes yes things are actually going on in here");
         }   while (!(getChar.attribute1 != getChar.attribute2 && getChar.attribute2 != getChar.attribute3));
         // a do while is used instead of a while loop so whenever the button clicks it always performs at least one iteration, otherwise it wouldn't work if you wanted to reroll multiple times.
     }

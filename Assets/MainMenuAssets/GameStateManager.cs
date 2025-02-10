@@ -42,9 +42,25 @@ public class GameStateManager : MonoBehaviour
             GameObject c1 = GameObject.Find("Character1");
             GameObject c2 = GameObject.Find("Character2");
             GameObject c3 = GameObject.Find("Character3"); // getting all of the different characters. this is the easiest way to do it in my opinion.
-            c1.transform.position = new Vector3(2, 0, -0.05f);
-            c2.transform.position = new Vector3(0, 0, -0.05f); 
-            c3.transform.position = new Vector3(-2, 0, -0.05f); // then changing all of the different characters' positions to be in the centre of the map. 
+            if (c1 != null && c2 != null && c3 != null)
+            {
+                c1.transform.position = new Vector3(2, 0, -0.05f);
+                c2.transform.position = new Vector3(0, 0, -0.05f); 
+                c3.transform.position = new Vector3(-2, 0, -0.05f); // then changing all of the different characters' positions to be in the centre of the map
+                c1.transform.localScale = new Vector3(1, 1.8f, 1);
+                c2.transform.localScale = new Vector3(1, 1.8f, 1);
+                c3.transform.localScale = new Vector3(1, 1.8f, 1); // then changing the sizes of the characters.
+                Rigidbody2D rigidc1 = c1.GetComponent<Rigidbody2D>();
+                Rigidbody2D rigidc2 = c2.GetComponent<Rigidbody2D>();
+                Rigidbody2D rigidc3 = c3.GetComponent<Rigidbody2D>(); // this is then grabbing the rigidbodies from each of them.
+                rigidc1.constraints = ~(RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY);
+                rigidc2.constraints = ~(RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY);
+                rigidc3.constraints = ~(RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY); // unfreezes the characters. 
+                rigidc1.AddForce(new Vector2(0.1f, 0));
+                rigidc2.AddForce(new Vector2(0.1f, 0));
+                rigidc3.AddForce(new Vector2(0.1f, 0)); // this is to make it move after being unfrozen. 
+            }
+
             hasGridBeenMade = true; // makes sure it doesn't get generated again.
         }
 

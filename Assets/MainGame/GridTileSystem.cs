@@ -24,7 +24,7 @@ public class GridTileSystem : MonoBehaviour
         this.origin = origin;
     }
     
-    public void GenerateGrid()
+    public void GenerateGrid() // 
     {
         GameObject prefabTile = (GameObject)Resources.Load("initialPrefabTile");
         GameObject TileHolder = GameObject.Find("TileHolder");
@@ -32,11 +32,22 @@ public class GridTileSystem : MonoBehaviour
         {
             for (int y = 0; y < objectHeight; y++) // finds the y coordinate of the gameobject to be generated
             {
-                Vector2 position = new Vector2((x * gapSize) + 0.5f, (y * gapSize) + 0.5f) + origin; // creates the game object at the point of origin 
+                Vector2 position = new Vector2((x * gapSize) + 0.5f, (y * gapSize) + 0.5f) + origin;
+                if (position.x >= -4 && position.x <= 4 && position.y >= -1 && position.y <= 2) // if the position is in the unwanted range. 
+                {
+                    continue; // because we do not want to run the grid code. 
+                }
+                else
+                { // creates the game object at the point of origin 
                 GameObject tile = Instantiate(prefabTile, position, Quaternion.identity);   
                 tile.name = $"tile_{x}_{y}"; // names the gameobject
                 tile.transform.parent = TileHolder.transform;
                 tile.AddComponent(typeof(BoxCollider2D)); // gives the gameobject a collider
+                tile.AddComponent(typeof(Rigidbody2D)); // gives the gameobject a rigidbody
+                // Rigidbody2D rb = tile.GetComponent<Rigidbody2D>();
+                BoxCollider2D bc = tile.GetComponent<BoxCollider2D>(); // unused for now, but just gets the rigidbody component of each tile.
+                // rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY; // freezes the tiles.
+                }
             }
         }
     }
