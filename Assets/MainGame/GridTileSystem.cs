@@ -43,10 +43,10 @@ public class GridTileSystem : MonoBehaviour
                 tile.name = $"tile_{x}_{y}"; // names the gameobject
                 tile.transform.parent = TileHolder.transform;
                 tile.AddComponent(typeof(BoxCollider2D)); // gives the gameobject a collider
-                tile.AddComponent(typeof(Rigidbody2D)); // gives the gameobject a rigidbody
+                // tile.AddComponent(typeof(Rigidbody2D)); // gives the gameobject a rigidbody
                 // Rigidbody2D rb = tile.GetComponent<Rigidbody2D>();
-                BoxCollider2D bc = tile.GetComponent<BoxCollider2D>(); // unused for now, but just gets the rigidbody component of each tile.
                 // rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY; // freezes the tiles.
+                BoxCollider2D bc = tile.GetComponent<BoxCollider2D>(); // unused for now, but just gets the rigidbody component of each tile.
                 }
             }
         }

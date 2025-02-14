@@ -20,6 +20,11 @@ public class Initialisation : MonoBehaviour
     public int attribute2Ability;
     public int attribute3Ability;
 
+    void Start()
+    {
+        character.AddComponent(typeof(BoxCollider2D));
+    }
+
     void Awake()
     {
         // this is so the object (character) will not be destroyed upon creation when we move them between scenes (like playing the game). 
@@ -29,21 +34,10 @@ public class Initialisation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (character.transform.localScale.x != 1 && character.transform.localScale.y != 1 && character.transform.localScale.z != 1 && SceneManager.GetActiveScene().name == "MainGameScene")
         {
-            characterRigidBody.velocity = Vector2.up * 5;
+            character.transform.localScale = new Vector3(1, 1.8f, 1); // this is just to change the scaling of the people so they look more like people... 
         }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            Debug.Log($"attribute1 = {attribute1}, attribute2 = {attribute2}, attribute3 = {attribute3}. etc etc, if this works the other stuff does too.");
-
-        }
-        /* THIS WILL BE CHANGED AT A LATER DATE SO ANY ISSUES WITH WIDTH/HEIGHT OF THE PROGRAM IT WILL AUTOMATICALLY SCALE.
-        if (SceneManager.GetActiveScene().name == "CharacterCreationScene")
-        {
-
-        }
-        */
     }
 
     void DestroyCharacter()

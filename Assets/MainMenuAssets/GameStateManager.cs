@@ -11,8 +11,8 @@ public class GameStateManager : MonoBehaviour
     {
         Paused, // 0
         Playing, // 1
-        DoubleSpeed,
-        TripleSpeed
+        DoubleSpeed, // 2
+        TripleSpeed // 3
     }
     public GameState currentState = (GameState)0;
     bool hasGridBeenMade = false;
@@ -35,13 +35,17 @@ public class GameStateManager : MonoBehaviour
     }
 
     void Update()
-    {   
+    {     
+        // getting all of the different characters. this is the easiest way to do it in my opinion.
+        // I am not a fan of how poor this is, but I cannot find it elsewhere. If i were to put it in Start() then it would have to run on start which would be at the beginning of the game
+        // being opened, so it would have literally no purpose. This is not worth it.
+        // I will have to come up with a more elegant solution later. 
+        GameObject c1 = GameObject.Find("Character1");
+        GameObject c2 = GameObject.Find("Character2");
+        GameObject c3 = GameObject.Find("Character3"); 
         if (!hasGridBeenMade && SceneManager.GetActiveScene().name == "MainGameScene")
-        {
+        {   
             gridGenerator.GenerateGrid(); // generates the grid.
-            GameObject c1 = GameObject.Find("Character1");
-            GameObject c2 = GameObject.Find("Character2");
-            GameObject c3 = GameObject.Find("Character3"); // getting all of the different characters. this is the easiest way to do it in my opinion.
             if (c1 != null && c2 != null && c3 != null)
             {
                 c1.transform.position = new Vector3(2, 0, -0.05f);
@@ -63,6 +67,8 @@ public class GameStateManager : MonoBehaviour
 
             hasGridBeenMade = true; // makes sure it doesn't get generated again.
         }
+
+        // This stuff below is for all of the camera movement, zooming and game state changes. I am going to add some other pieces of code probably for the movement of each individual character. 
 
         if (SceneManager.GetActiveScene().name == "MainGameScene")
         {
@@ -112,7 +118,9 @@ public class GameStateManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("You have pressed left click.");
+            // this code should be changed slightly in the future anyways, I do not like how whenever you left click it will use the dig function.
+            // what I might do is if you are in a specific mode (digging mode) then it will allow you to dig, else it will just bring up the statistics of said object.
+            // This should be a better solution and is what I intended to do in the future anyways. 
             gridGenerator.DigFunction();
         }
 
@@ -126,6 +134,28 @@ public class GameStateManager : MonoBehaviour
             if (Camera.main.orthographicSize + 0.5f != 1) Camera.main.orthographicSize -= 0.5f;
             cameraSpeed = 1 + (Camera.main.orthographicSize * 0.3f);
         }
+
+        // making sure these objects exist before you even try to do anything with them.
+        if (c1 != null && c2 != null && c3 != null) 
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                c1.GetComponent<Rigidbody2D>().velocity = Vector2.left * (float)currentState;
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                c1.GetComponent<Rigidbody2D>().velocity = Vector2.up * (float)currentState;
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                c1.GetComponent<Rigidbody2D>().velocity = Vector2.right * (float)currentState;
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                c1.GetComponent<Rigidbody2D>().velocity = Vector2.down * (float)currentState;
+            }
+        }
+        
     }
 
     void FixedUpdate()
