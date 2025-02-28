@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -42,7 +43,7 @@ public class GameStateManager : MonoBehaviour
         // I will have to come up with a more elegant solution later. 
         GameObject c1 = GameObject.Find("Character1");
         GameObject c2 = GameObject.Find("Character2");
-        GameObject c3 = GameObject.Find("Character3"); 
+        GameObject c3 = GameObject.Find("Character3");
         if (!hasGridBeenMade && SceneManager.GetActiveScene().name == "MainGameScene")
         {   
             gridGenerator.GenerateGrid(); // generates the grid.
@@ -138,21 +139,35 @@ public class GameStateManager : MonoBehaviour
         // making sure these objects exist before you even try to do anything with them.
         if (c1 != null && c2 != null && c3 != null) 
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            // I should change this to meet the same code as my camera movement perhaps.
+            // I also need to change the "friction" or "air resistance" so the objects actually slow down when you stop holding it down when the game speed is higher.
+            // I will just change how to the game speed stuff works slightly.
+            
+            // and this code needs to be altered in a way that prevents constantly moving upwards. I want them to be able to go diagonally (so they don't just have to go up or just to the side)
+            // but that will mean I also need to prevent them from moving upwards if they're in the air already.
+            // maybe if i look for if it is colliding with a tile, and if it is then it can jump, else it can't? That would work.
+            
+            // for now the up and left or up and right will just go left and right respectively until i think of a fix. 
+
+            if (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.UpArrow))
             {
-                c1.GetComponent<Rigidbody2D>().velocity = Vector2.left * (float)currentState;
+                c1.GetComponent<Rigidbody2D>().velocity = new Vector2(-3f * (int)currentState, c1.GetComponent<Rigidbody2D>().velocity.y);
+            }
+            else if (Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow))
+            {
+                c1.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * (int)currentState, c1.GetComponent<Rigidbody2D>().velocity.y);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                c1.GetComponent<Rigidbody2D>().velocity = new Vector2(-3f * (int)currentState, c1.GetComponent<Rigidbody2D>().velocity.y);
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                c1.GetComponent<Rigidbody2D>().velocity = Vector2.up * (float)currentState;
+                if ((int)currentState != 0) c1.GetComponent<Rigidbody2D>().velocity = new Vector2(c1.GetComponent<Rigidbody2D>().velocity.x, 5);
             }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.RightArrow))
             {
-                c1.GetComponent<Rigidbody2D>().velocity = Vector2.right * (float)currentState;
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                c1.GetComponent<Rigidbody2D>().velocity = Vector2.down * (float)currentState;
+                c1.GetComponent<Rigidbody2D>().velocity = new Vector2(3f * (int)currentState, c1.GetComponent<Rigidbody2D>().velocity.y);
             }
         }
         
@@ -234,4 +249,6 @@ public class GameStateManager : MonoBehaviour
             break;
         }
     }
+
 }
+
