@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIButtonToggles : MonoBehaviour
 {
-    [SerializeField] bool digToggle = false;
+    public bool digToggle = false;
     public Button digButton;
     public TMP_Text digButtonText;
 
