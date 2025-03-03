@@ -124,8 +124,11 @@ public class GameStateManager : MonoBehaviour
             // this code should be changed slightly in the future anyways, I do not like how whenever you left click it will use the dig function.
             // what I might do is if you are in a specific mode (digging mode) then it will allow you to dig, else it will just bring up the statistics of said object.
             // This should be a better solution and is what I intended to do in the future anyways. 
-            UIButtonToggles digButtonScript = GameObject.Find("DigButton").GetComponent<UIButtonToggles>();
-            if (digButtonScript != null && digButtonScript.digToggle) gridGenerator.DigFunction();
+            UIButtonToggles digButtonScript = GameObject.Find("TileHolder").GetComponent<UIButtonToggles>();
+            if (digButtonScript != null && digButtonScript.digToggle)   
+            {
+                gridGenerator.DigFunction();
+            }
         }
 
         if (Input.GetAxisRaw("Mouse ScrollWheel") < 0f ) // forward
