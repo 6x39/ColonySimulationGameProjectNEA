@@ -63,4 +63,13 @@ public class GridTileSystem : MonoBehaviour
             Destroy(intersecting.gameObject); // then destroys it
         }
     }
+
+    public void BuildFunction() // this will allow for doing the reverse of the dig function essentially. I'm gonna make sure there is no object there and if there isn't then it will build.
+    // I can probably just make the same code as above but move the if statement.
+    {
+        // I will need to check the position of the cursor
+        // find the x value and y value of the cursor
+        // place an object there.
+        
+    }
 }
