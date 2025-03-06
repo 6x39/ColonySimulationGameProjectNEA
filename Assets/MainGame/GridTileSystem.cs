@@ -39,6 +39,7 @@ public class GridTileSystem : MonoBehaviour
                 }
                 else
                 { // creates the game object at the point of origin 
+
                 GameObject tile = Instantiate(prefabTile, position, Quaternion.identity);   
                 tile.name = $"tile_{x}_{y}"; // names the gameobject
                 tile.transform.parent = TileHolder.transform;
@@ -64,12 +65,28 @@ public class GridTileSystem : MonoBehaviour
         }
     }
 
-    public void BuildFunction() // this will allow for doing the reverse of the dig function essentially. I'm gonna make sure there is no object there and if there isn't then it will build.
+    public void BuildFunction(string objectToUse) // this will allow for doing the reverse of the dig function essentially. I'm gonna make sure there is no object there and if there isn't then it will build.
     // I can probably just make the same code as above but move the if statement.
     {
         // I will need to check the position of the cursor
         // find the x value and y value of the cursor
         // place an object there.
-        
+        // not adding comments to all of the next things adding information on them, as that's already listed above. 
+        Vector3 cursorPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        Vector3 worldCursorPosition = Camera.main.ScreenToWorldPoint(cursorPosition); 
+        LayerMask mask = LayerMask.GetMask("Default"); 
+        Collider2D intersecting = Physics2D.OverlapCircle(worldCursorPosition, 0.001f, mask);
+        GameObject prefabTile = (GameObject)Resources.Load(objectToUse);
+        GameObject TileHolder = GameObject.Find("TileHolder");
+        if (intersecting == null) // if there is no gameobject there
+        {
+            // run the code that builds the object.
+            //Vector3 placeToPutObject =  new Vector3((float)Math.Truncate(worldCursorPosition.x) + 0.5f, (float)Math.Truncate(worldCursorPosition.y) + 0.5f, 0);
+            Vector3 placeToPutObject =  new Vector3(Mathf.Floor(worldCursorPosition.x) + 0.5f, Mathf.Floor(worldCursorPosition.y) + 0.5f, 0);
+            GameObject tile = Instantiate(prefabTile, placeToPutObject, Quaternion.identity);   
+            tile.name = $"tile_{(float)Math.Truncate(worldCursorPosition.x)}_{(float)Math.Truncate(worldCursorPosition.y)}"; // names the gameobject
+            tile.transform.parent = TileHolder.transform;
+            tile.AddComponent(typeof(BoxCollider2D)); // gives the gameobject a collider
+        }
     }
 }

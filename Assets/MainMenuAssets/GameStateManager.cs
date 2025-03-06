@@ -125,9 +125,14 @@ public class GameStateManager : MonoBehaviour
             // what I might do is if you are in a specific mode (digging mode) then it will allow you to dig, else it will just bring up the statistics of said object.
             // This should be a better solution and is what I intended to do in the future anyways. 
             UIButtonToggles digButtonScript = GameObject.Find("TileHolder").GetComponent<UIButtonToggles>();
-            if (digButtonScript != null && digButtonScript.digToggle)   
+            UIButtonToggles buildButtonScript = GameObject.Find("TileHolder").GetComponent<UIButtonToggles>();
+            if (digButtonScript != null && digButtonScript.digToggle)  // if the dig button has been toggled on, and there is a digbutton script found do the following 
             {
-                gridGenerator.DigFunction();
+                gridGenerator.DigFunction(); // runs the dig function
+            }
+            else if (digButtonScript != null && buildButtonScript.buildToggle)
+            {
+                gridGenerator.BuildFunction("initialPrefabTile");
             }
         }
 
