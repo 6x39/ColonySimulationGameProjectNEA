@@ -45,20 +45,24 @@ public class UIButtonToggles : MonoBehaviour
         blueButton.gameObject.SetActive(false);
         greenButton.gameObject.SetActive(false);
         sandstoneButton.gameObject.SetActive(false);
+
+        Debug.Log($"basicButton: {basicButton}");
+        Debug.Log($"basicButtonText: {basicButtonText}");
+        Debug.Log($"basicToggle: {basicToggle}");
     }
 
     public void DigButtonToggle()
     {
         if (buildToggle) buildToggle = !buildToggle; buildButtonText.color = Color.black;
         digToggle = !digToggle;
-        if (digToggle) digButtonText.color = Color.blue; else digButtonText.color = Color.black;
+        if (digToggle) {digButtonText.color = Color.blue; buildButtonText.color = Color.black;} else digButtonText.color = Color.black;
     }
 
     public void BuildButtonToggle()
     {
         if (digToggle) digToggle = !digToggle; digButtonText.color = Color.black;
         buildToggle = !buildToggle;
-        if (buildToggle) buildButtonText.color = Color.blue; else buildButtonText.color = Color.black;
+        if (buildToggle) {buildButtonText.color = Color.blue; digButtonText.color = Color.black;} else buildButtonText.color = Color.black;
         tilePermittance();
     }
 
@@ -86,11 +90,11 @@ public class UIButtonToggles : MonoBehaviour
         myBool = !myBool;
         // this is the most elegant solution i could do without making array objects each time this is run, and then using 10 references to somehow change the reference of a reference of a reference
         // of a value in an array to change it in the entire program. This is a lot easier but looks a lot less elegant. I will change it in the future if I really want to make it look pretty.
-        if (basicToggle != myBool && basicToggle != false) basicToggle = false;
-        if (redToggle != myBool && redToggle != false) redToggle = false;
-        if (blueToggle != myBool && blueToggle != false) blueToggle = false;
-        if (greenToggle != myBool && greenToggle != false) greenToggle = false;
-        if (sandstoneToggle != myBool && sandstoneToggle != false) sandstoneToggle = false;
+        if (basicButton != myButton && basicToggle != false) basicToggle = false; basicButtonText.color = Color.black; redButtonText.color = Color.black; blueButtonText.color = Color.black; greenButtonText.color = Color.black; sandstoneButtonText.color = Color.black;
+        if (redButton != myButton && redToggle != false) redToggle = false; basicButtonText.color = Color.black; redButtonText.color = Color.black; blueButtonText.color = Color.black; greenButtonText.color = Color.black; sandstoneButtonText.color = Color.black;
+        if (blueButton != myButton && blueToggle != false) blueToggle = false; basicButtonText.color = Color.black; redButtonText.color = Color.black; blueButtonText.color = Color.black; greenButtonText.color = Color.black; sandstoneButtonText.color = Color.black;
+        if (greenButton != myButton && greenToggle != false) greenToggle = false; basicButtonText.color = Color.black; redButtonText.color = Color.black; blueButtonText.color = Color.black; greenButtonText.color = Color.black; sandstoneButtonText.color = Color.black;
+        if (sandstoneButton != myButton && sandstoneToggle != false) sandstoneToggle = false; basicButtonText.color = Color.black; redButtonText.color = Color.black; blueButtonText.color = Color.black; greenButtonText.color = Color.black; sandstoneButtonText.color = Color.black;
 
         if (myBool) myText.color = Color.blue; else myText.color = Color.black;
     }
