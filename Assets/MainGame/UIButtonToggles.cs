@@ -34,11 +34,11 @@ public class UIButtonToggles : MonoBehaviour
 
     void Start()
     {
-        basicButton.onClick.AddListener(() => individualTileActivation(basicButton, basicButtonText, ref basicToggle));
-        redButton.onClick.AddListener(() => individualTileActivation(redButton, redButtonText, ref redToggle));
-        blueButton.onClick.AddListener(() => individualTileActivation(blueButton, blueButtonText, ref blueToggle));
-        greenButton.onClick.AddListener(() => individualTileActivation(greenButton, greenButtonText, ref greenToggle));
-        sandstoneButton.onClick.AddListener(() => individualTileActivation(sandstoneButton, sandstoneButtonText, ref sandstoneToggle));
+        basicButton.onClick.AddListener(() => IndividualTileActivation(basicButton, basicButtonText, ref basicToggle));
+        redButton.onClick.AddListener(() => IndividualTileActivation(redButton, redButtonText, ref redToggle));
+        blueButton.onClick.AddListener(() => IndividualTileActivation(blueButton, blueButtonText, ref blueToggle));
+        greenButton.onClick.AddListener(() => IndividualTileActivation(greenButton, greenButtonText, ref greenToggle));
+        sandstoneButton.onClick.AddListener(() => IndividualTileActivation(sandstoneButton, sandstoneButtonText, ref sandstoneToggle));
 
         basicButton.gameObject.SetActive(false);
         redButton.gameObject.SetActive(false);
@@ -55,7 +55,7 @@ public class UIButtonToggles : MonoBehaviour
     {
         if (buildToggle) buildToggle = !buildToggle; buildButtonText.color = Color.black;
         digToggle = !digToggle;
-        if (digToggle) {digButtonText.color = Color.blue; buildButtonText.color = Color.black;} else digButtonText.color = Color.black;
+        if (digToggle) {digButtonText.color = Color.blue; buildButtonText.color = Color.black; buildToggle = false; permitTiles = false; TilePermittance();} else digButtonText.color = Color.black;
     }
 
     public void BuildButtonToggle()
@@ -63,10 +63,10 @@ public class UIButtonToggles : MonoBehaviour
         if (digToggle) digToggle = !digToggle; digButtonText.color = Color.black;
         buildToggle = !buildToggle;
         if (buildToggle) {buildButtonText.color = Color.blue; digButtonText.color = Color.black;} else buildButtonText.color = Color.black;
-        tilePermittance();
+        TilePermittance();
     }
 
-    public void tilePermittance()
+    public void TilePermittance()
     {
         if (buildToggle)
         {
@@ -85,7 +85,7 @@ public class UIButtonToggles : MonoBehaviour
         sandstoneButton.gameObject.SetActive(permitTiles);
     }
 
-    public void individualTileActivation(Button myButton, TMP_Text myText, ref bool myBool) 
+    public void IndividualTileActivation(Button myButton, TMP_Text myText, ref bool myBool) 
     {
         myBool = !myBool;
         // this is the most elegant solution i could do without making array objects each time this is run, and then using 10 references to somehow change the reference of a reference of a reference
@@ -97,5 +97,38 @@ public class UIButtonToggles : MonoBehaviour
         if (sandstoneButton != myButton && sandstoneToggle != false) sandstoneToggle = false; basicButtonText.color = Color.black; redButtonText.color = Color.black; blueButtonText.color = Color.black; greenButtonText.color = Color.black; sandstoneButtonText.color = Color.black;
 
         if (myBool) myText.color = Color.blue; else myText.color = Color.black;
+    }
+
+    public string SelectBlockPrefab() // i want this to return the name of the tile that I'm going to load from Resources.
+    {   
+        for (int i = 0; i < 5; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                if (basicToggle) return "initialPrefabTile";
+                break;
+
+                case 1:
+                if (redToggle) return "redstonePrefabTIle";
+                break;
+
+                case 2:
+                if (blueToggle) return "lapisPrefabTile";
+                break;
+
+                case 3:
+                if (greenToggle) return "emeraldPrefabTile";
+                break;
+
+                case 4:
+                if (sandstoneToggle) return "sandstonePrefabTile";
+                break;
+
+                default:
+                return "none";
+            }
+        }
+        return "none";
     }
 }   
