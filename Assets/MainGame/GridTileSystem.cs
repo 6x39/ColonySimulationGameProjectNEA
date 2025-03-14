@@ -16,6 +16,9 @@ public class GridTileSystem : MonoBehaviour
     private float gapSize; // the gap between each block
     private Vector2 origin; // this is where the origin is going to be (where the grid starts).
 
+    public float maxHealth;
+    public float currentHealth;
+
     public GridTileSystem(int width, int height, float gapSize, Vector2 origin)
     {
         this.objectWidth = width;
@@ -43,7 +46,8 @@ public class GridTileSystem : MonoBehaviour
                 GameObject tile = Instantiate(prefabTile, position, Quaternion.identity);   
                 tile.name = $"tile_{x}_{y}"; // names the gameobject
                 tile.transform.parent = TileHolder.transform;
-                tile.AddComponent(typeof(BoxCollider2D)); // gives the gameobject a collider
+                tile.AddComponent(typeof(BoxCollider2D)); // gives the gameobject a Collider
+                tile.AddComponent(typeof(TileAttributes));
                 // tile.AddComponent(typeof(Rigidbody2D)); // gives the gameobject a rigidbody
                 // Rigidbody2D rb = tile.GetComponent<Rigidbody2D>();
                 // rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY; // freezes the tiles.
@@ -59,9 +63,9 @@ public class GridTileSystem : MonoBehaviour
         Vector3 worldCursorPosition = Camera.main.ScreenToWorldPoint(cursorPosition); // and then converts it to a world vector instead.
         LayerMask mask = LayerMask.GetMask("Default"); // unneeded, but tells the OverlapCircle which layer to work on.
         Collider2D intersecting = Physics2D.OverlapCircle(worldCursorPosition, 0.001f, mask); // finds the collider that is intersecting with the cursor.
-        if (intersecting != null) // if there is a gameobject there 
+        if (intersecting.gameObject.GetComponent<TileAttributes>() != null) // if there is a gameobject there 
         {
-            Destroy(intersecting.gameObject); // then destroys it
+            intersecting.gameObject.GetComponent<TileAttributes>().AlterHealth(1);
         }
     }
 
